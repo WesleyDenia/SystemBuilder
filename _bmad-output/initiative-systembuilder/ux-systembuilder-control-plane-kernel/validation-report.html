@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>SystemBuilder Control Plane Kernel — UX Design Validation</title>
+  <style>
+    :root { --bg:#fafaf9; --surface:#fff; --border:#e7e5e4; --text:#1c1917; --muted:#78716c; --pass:#16a34a; }
+    * { box-sizing:border-box; }
+    body { margin:0; background:var(--bg); color:var(--text); font:15px/1.6 system-ui,sans-serif; }
+    main { max-width:960px; margin:auto; padding:32px 24px 64px; }
+    header, section { background:var(--surface); border:1px solid var(--border); border-radius:8px; padding:18px 22px; margin-bottom:14px; }
+    header { border-left:3px solid var(--pass); }
+    h1 { margin:0; font-size:22px; } h2 { margin:0 0 8px; font-size:16px; } p { margin:8px 0; }
+    .meta, .footer { color:var(--muted); font:12px ui-monospace,monospace; }
+    .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(190px,1fr)); gap:10px; }
+    .card { border:1px solid var(--border); border-radius:6px; padding:10px 12px; }
+    .pass { color:var(--pass); font-weight:700; } ul { margin:8px 0; }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <h1>SystemBuilder Control Plane Kernel — UX Design Validation</h1>
+      <div class="meta">DESIGN.md + EXPERIENCE.md · 2026-10-15T22:17:00+01:00</div>
+      <p>The spine pair is strong for architecture and story consumers. The selected accessibility lens passes the WCAG 2.2 AA UX contract.</p>
+    </header>
+    <section>
+      <h2>Category verdicts</h2>
+      <div class="grid">
+        <div class="card">Flow coverage<br><span class="pass">strong</span></div>
+        <div class="card">Token completeness<br><span class="pass">strong</span></div>
+        <div class="card">Component coverage<br><span class="pass">strong</span></div>
+        <div class="card">State coverage<br><span class="pass">strong</span></div>
+        <div class="card">Visual reference coverage<br><span class="pass">strong</span></div>
+        <div class="card">Bloat &amp; overspecification<br><span class="pass">strong</span></div>
+        <div class="card">Inheritance discipline<br><span class="pass">strong</span></div>
+        <div class="card">Shape fit<br><span class="pass">strong</span></div>
+        <div class="card">Accessibility lens<br><span class="pass">pass</span></div>
+      </div>
+    </section>
+    <section>
+      <h2>Findings</h2>
+      <p><span class="pass">0 critical · 0 high · 0 medium · 0 low</span></p>
+      <p>Implementation must still verify rendered token composition and interactive shadcn/ui behavior.</p>
+    </section>
+    <section>
+      <h2>Reviewer artifacts</h2>
+      <ul><li>review-rubric.md</li><li>review-accessibility.md</li></ul>
+    </section>
+    <div class="footer">All IA surfaces are intentionally spine-only; no mockups or imports are required.</div>
+  </main>
+</body>
+</html>
