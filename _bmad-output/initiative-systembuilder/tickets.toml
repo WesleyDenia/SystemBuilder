@@ -1,0 +1,47 @@
+[[epic]]
+id = 1
+slug = "epic-tenant-authority-foundation"
+title = "Tenant authority and platform foundation"
+covers = ["CAP-15", "CAP-16"]
+
+[[epic]]
+id = 2
+slug = "epic-ledger-traceability-integrity"
+title = "Ledger, traceability and asynchronous integrity substrate"
+covers = ["CAP-8", "CAP-21"]
+after = [{ epic = 1, needs = "membership-derived scope and application transaction seam" }]
+
+[[epic]]
+id = 3
+slug = "epic-governed-workflow-kernel"
+title = "Governed workflow, assurance, profiles and readiness"
+covers = ["CAP-1", "CAP-2", "CAP-3", "CAP-4", "CAP-5", "CAP-6", "CAP-7", "CAP-10", "CAP-11", "CAP-13", "CAP-14"]
+after = [{ epic = 2, needs = "atomic Ledger/outbox and trace contracts for every governed mutation" }]
+
+[[epic]]
+id = 4
+slug = "epic-capability-execution-authorization"
+title = "Capability governance and execution authorization"
+covers = ["CAP-9", "CAP-12", "CAP-15"]
+after = [{ epic = 3, needs = "versioned eligibility, assurance and lifecycle contracts" }]
+
+[[epic]]
+id = 5
+slug = "epic-isolated-execution-artifacts-context"
+title = "Isolated execution, durable artifacts and Project Constitution"
+covers = ["CAP-15", "CAP-17", "CAP-18", "CAP-19"]
+after = [{ epic = 4, needs = "approved authorization and job/result protocol" }]
+
+[[epic]]
+id = 6
+slug = "epic-governed-console-audit"
+title = "Governed Console, Evidence and traceability"
+covers = ["CAP-8", "CAP-16"]
+after = [{ epic = 5, needs = "authorized execution status and durable artifact references" }]
+
+[[epic]]
+id = 7
+slug = "epic-client-deployment-governance"
+title = "Governed client deployment runs"
+covers = ["CAP-15", "CAP-20"]
+after = [{ epic = 6, needs = "shared governed Console/BFF primitives and audit presentation" }]

@@ -1,0 +1,116 @@
+[[entry]]
+id = 1
+type = "story"
+title = "Seed the Control Plane and Console/BFF tracer"
+description = "Creates the Laravel, Next.js BFF, shared contract and verification-command skeletons with a test-only scoped request crossing the BFF to Laravel."
+verify = "A documented canonical command proves a test membership context reaches a Laravel scoped read through the BFF and the browser has no direct Laravel route."
+covers = ["CAP-15", "CAP-16"]
+after = []
+hitl = false
+risk = "high"
+unknown = "The repository has no application manifests or canonical commands, so the structural seed must make both explicit."
+references = ["_bmad-output/initiative-systembuilder/architecture-systembuilder-control-plane-kernel/architecture-systembuilder-control-plane-kernel.md, Stack and Structural Seed", "_bmad-output/initiative-systembuilder/architecture-systembuilder-control-plane-kernel/architecture-systembuilder-control-plane-kernel.md, AD-1–AD-3"]
+
+[[entry]]
+id = 2
+type = "story"
+title = "Record the initial identity and membership authorization contract"
+description = "Records the OQ-1 decision for identity, MFA and role or attribute authorization while preserving Laravel as final authorizer."
+verify = "Product and Architecture approve a written contract that defines session claims, membership lookup, roles or attributes, revocation and Laravel reauthorization."
+covers = ["CAP-15"]
+after = [1]
+hitl = true
+risk = "high"
+unknown = "OQ-1 has no approved IdP, MFA or RBAC/ABAC choice and cannot be invented by implementation work."
+references = ["_bmad-output/initiative-systembuilder/prd-systembuilder-control-plane-kernel/prd-systembuilder-control-plane-kernel.md, OQ-1", "_bmad-output/initiative-systembuilder/architecture-systembuilder-control-plane-kernel/architecture-systembuilder-control-plane-kernel.md, AD-3 and AD-4"]
+
+[[entry]]
+id = 3
+type = "story"
+title = "Derive membership scope at the application boundary"
+description = "Implements the approved membership context and Laravel application authorization boundary so browser-provided identifiers cannot grant Tenant, Project or action scope."
+verify = "Authenticated requests with altered Tenant, Project, header or query identifiers are denied without changing the server-derived authorized scope."
+covers = ["CAP-15"]
+after = [2]
+hitl = false
+risk = "high"
+unknown = "The concrete session-claim mapping depends on the approved OQ-1 contract."
+references = ["_bmad-output/initiative-systembuilder/prd-systembuilder-control-plane-kernel/prd-systembuilder-control-plane-kernel.md, FR-1 and NFR-4", "_bmad-output/initiative-systembuilder/architecture-systembuilder-control-plane-kernel/architecture-systembuilder-control-plane-kernel.md, AD-3 and AD-4"]
+
+[[entry]]
+id = 4
+type = "story"
+title = "Enforce scoped persistence and governed-command entry"
+description = "Adds fail-closed Tenant and Project enforcement to scoped repositories and the application-command entry seam without accepting governed mutations before Ledger/outbox exists."
+verify = "Cross-Tenant, cross-Project and missing-context reads or commands are denied without resource disclosure, and no governed mutation can be accepted."
+covers = ["CAP-15"]
+after = [3]
+hitl = false
+risk = "high"
+unknown = "The initial shared-schema record shape must preserve the AD-4 scope semantics while Ledger/outbox concrete persistence waits for epic 2."
+references = ["_bmad-output/initiative-systembuilder/prd-systembuilder-control-plane-kernel/prd-systembuilder-control-plane-kernel.md, FR-1 and NFR-1", "_bmad-output/initiative-systembuilder/architecture-systembuilder-control-plane-kernel/architecture-systembuilder-control-plane-kernel.md, AD-1, AD-3 and AD-4"]
+
+[[entry]]
+id = 5
+type = "story"
+title = "Build BFF delegation and the safe Console shell"
+description = "Implements opaque-session BFF delegation to Laravel and a scoped Console foundation with shadcn, theme, locale and mobile-safe consultation primitives."
+verify = "An authorized Project context is rendered only from a BFF view model, while desktop and mobile enforce their respective action boundaries and preserve accessible text state."
+covers = ["CAP-15", "CAP-16"]
+after = [3]
+hitl = false
+risk = "high"
+unknown = "The selected identity contract fixes session handling, while later epics supply the governed read models and operational screens."
+references = ["_bmad-output/initiative-systembuilder/prd-systembuilder-control-plane-kernel/prd-systembuilder-control-plane-kernel.md, FR-2, FR-3 and NFR-7", "_bmad-output/initiative-systembuilder/architecture-systembuilder-control-plane-kernel/architecture-systembuilder-control-plane-kernel.md, AD-2", "_bmad-output/initiative-systembuilder/ux-systembuilder-control-plane-kernel/EXPERIENCE.md, Foundation and Responsive & Platform", "docs/theme.css"]
+
+[[entry]]
+id = 6
+type = "story"
+title = "Constrain direct-object access and internal service routes"
+description = "Establishes the authorized short-lived presigned-object exception and rejects direct browser access to Laravel internals, queues, Runner Manager and runners."
+verify = "Only one authorized object/action can receive a short-lived direct URL, while attempted direct access to every internal service fails without disclosing the target."
+covers = ["CAP-15", "CAP-16"]
+after = [4, 5]
+hitl = false
+risk = "high"
+unknown = "Object storage provider selection belongs to a later epic, so this story verifies the authorization contract through a bounded port."
+references = ["_bmad-output/initiative-systembuilder/architecture-systembuilder-control-plane-kernel/architecture-systembuilder-control-plane-kernel.md, AD-2 and AD-4", "_bmad-output/initiative-systembuilder/prd-systembuilder-control-plane-kernel/prd-systembuilder-control-plane-kernel.md, FR-1, FR-2 and NFR-2"]
+
+[[entry]]
+id = 7
+type = "story"
+title = "Prove foundation isolation and safe-surface conformance"
+description = "Adds the reusable conformance evidence for cross-scope denial, BFF authority, sanitized failures and the foundation accessibility and responsive rules."
+verify = "The canonical suite demonstrates no cross-scope existence leak or direct-authority bypass and verifies keyboard, textual state and mobile consultation restrictions."
+covers = ["CAP-15", "CAP-16"]
+after = [6]
+hitl = false
+risk = "high"
+unknown = "Later execution and Artifact surfaces extend this suite, but the foundation must define the reusable denial and presentation fixtures now."
+references = ["_bmad-output/initiative-systembuilder/prd-systembuilder-control-plane-kernel/prd-systembuilder-control-plane-kernel.md, NFR-1, NFR-4 and NFR-7", "_bmad-output/initiative-systembuilder/ux-systembuilder-control-plane-kernel/EXPERIENCE.md, Accessibility Floor"]
+
+[[entry]]
+id = 8
+type = "story"
+title = "Refactor the tenant-authority foundation"
+description = "Uses the completed build records and deferred review findings to remove only foundation duplication and harden its internal seams."
+verify = "The canonical suite still passes after scoped cleanup, with no deferred finding that changes a published authority or scope contract."
+covers = ["CAP-15", "CAP-16"]
+after = [1, 2, 3, 4, 5, 6, 7]
+hitl = false
+risk = "medium"
+unknown = "The cleanup scope is determined by completed story records and review findings rather than pre-allocating feature work."
+references = ["_bmad-output/initiative-systembuilder/epic-tenant-authority-foundation/epic-tenant-authority-foundation.md, Done when"]
+
+[[entry]]
+id = 9
+type = "story"
+title = "Demonstrate the tenant-authority tracer end to end"
+description = "Runs the final foundation tracer through the Console/BFF and Laravel scope boundary using the canonical commands and authorized test fixtures."
+verify = "An independent reviewer can run the documented tracer and observe authorized scoped access plus all required denial and safe-surface evidence."
+covers = ["CAP-15", "CAP-16"]
+after = [8]
+hitl = false
+risk = "high"
+unknown = "The final fixture follows the identity contract chosen in story 2 and must not simulate an unapproved external provider."
+references = ["_bmad-output/initiative-systembuilder/epic-tenant-authority-foundation/epic-tenant-authority-foundation.md, Done when", "_bmad-output/initiative-systembuilder/prd-systembuilder-control-plane-kernel/prd-systembuilder-control-plane-kernel.md, SM-1 and NFR-4"]
