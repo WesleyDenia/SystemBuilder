@@ -1,6 +1,7 @@
 [[entry]]
 id = 1
 type = "story"
+refine = true
 title = "Seed the Control Plane and Console/BFF tracer"
 description = "Creates the Laravel, Next.js BFF, shared contract and verification-command skeletons with a test-only scoped request crossing the BFF to Laravel."
 verify = "A documented canonical command proves a test membership context reaches a Laravel scoped read through the BFF and the browser has no direct Laravel route."
