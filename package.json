@@ -1,4 +1,11 @@
 {
+  "private": true,
+  "workspaces": [
+    "console"
+  ],
+  "scripts": {
+    "verify:tracer": "sh scripts/verify-tracer.sh"
+  },
   "dependencies": {
     "uv": "^1.4.0"
   }

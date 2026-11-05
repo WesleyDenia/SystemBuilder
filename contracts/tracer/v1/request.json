@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://systembuilder.local/contracts/tracer/v1/request.json",
+  "title": "Tracer scoped-read server request",
+  "description": "The BFF-to-Control Plane adapter supplies this material from server configuration only. It is never a browser request schema.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["delegation", "correlation"],
+  "properties": {
+    "delegation": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 4096,
+      "pattern": "^[A-Za-z0-9_-]+\\.[A-Za-z0-9_-]+$"
+    },
+    "correlation": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "pattern": "^[A-Za-z0-9-]+$"
+    }
+  }
+}

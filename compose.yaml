@@ -1,0 +1,62 @@
+name: systembuilder-tracer
+
+services:
+  control-plane:
+    build:
+      context: .
+      dockerfile: docker/control-plane.Dockerfile
+    expose:
+      - "8000"
+    networks:
+      - tracer-private
+    volumes:
+      - tracer-runtime:/tracer-runtime
+
+  console:
+    build:
+      context: .
+      dockerfile: docker/console.Dockerfile
+    ports:
+      - "127.0.0.1:3000:3000"
+    networks:
+      - tracer-private
+      - tracer-public
+    volumes:
+      - tracer-runtime:/tracer-runtime
+
+  tracer-verifier:
+    build:
+      context: .
+      dockerfile: docker/verifier.Dockerfile
+    depends_on:
+      control-plane:
+        condition: service_started
+      console:
+        condition: service_started
+      control-plane-tests:
+        condition: service_completed_successfully
+    networks:
+      - tracer-private
+    volumes:
+      - tracer-runtime:/tracer-runtime
+
+  control-plane-tests:
+    build:
+      context: .
+      dockerfile: docker/control-plane.Dockerfile
+    entrypoint: ["vendor/bin/phpunit", "-c", "phpunit.xml"]
+    environment:
+      APP_ENV: testing
+      APP_DEBUG: "false"
+      APP_KEY: base64:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
+      TRACER_DELEGATION_KEY: test-harness-key-not-a-production-secret
+    networks:
+      - tracer-private
+
+networks:
+  tracer-private:
+    internal: true
+  tracer-public:
+
+volumes:
+  tracer-runtime:

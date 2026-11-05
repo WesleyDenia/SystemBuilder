@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://systembuilder.local/contracts/tracer/v1/scoped-read.json",
+  "title": "Tracer scoped-read response",
+  "description": "Test-only, server-to-server tracer response. The browser never sends tenant, project, action, delegation, or a Control Plane address.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["version", "fixture"],
+  "properties": {
+    "version": { "const": "tracer/v1" },
+    "fixture": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["label"],
+      "properties": {
+        "label": { "type": "string", "const": "authorized scoped fixture", "minLength": 1, "maxLength": 64 }
+      }
+    }
+  }
+}

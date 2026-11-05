@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://systembuilder.local/contracts/tracer/v1/errors.json",
+  "title": "Tracer v1 sanitized errors",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["error"],
+  "properties": {
+    "error": {
+      "type": "string",
+      "enum": ["tracer_access_denied", "tracer_unavailable", "tracer_request_rejected", "not_found"]
+    }
+  }
+}
