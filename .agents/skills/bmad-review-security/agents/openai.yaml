@@ -1,0 +1,4 @@
+interface:
+  display_name: "Revisão de Segurança BMAD"
+  short_description: "Auditoria adversarial de segurança para artefatos BMAD e código."
+  default_prompt: "Revise este artefato com foco exclusivo em segurança da informação."
