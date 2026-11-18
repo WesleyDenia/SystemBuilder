@@ -1,7 +1,7 @@
 ---
 tracker_id: "3"
 remote: "https://github.com/WesleyDenia/SystemBuilder/issues/3"
-tracker_status: backlog
+tracker_status: done
 id: 1
 type: story
 title: "Seed the Control Plane and Console/BFF tracer"
