@@ -1,7 +1,7 @@
 ---
 tracker_id: "4"
 remote: "https://github.com/WesleyDenia/SystemBuilder/issues/4"
-tracker_status: backlog
+tracker_status: in-progress
 id: 2
 type: story
 title: "Record the initial identity and membership authorization contract"
