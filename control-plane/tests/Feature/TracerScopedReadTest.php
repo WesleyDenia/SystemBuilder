@@ -41,12 +41,14 @@ final class TracerScopedReadTest extends TestCase
             'malformed' => ['not-a-delegation'],
             'expired' => [self::delegation(['exp' => time() - 1])],
             'too long lived' => [self::delegation(['exp' => time() + 125])],
+            'wrong issuer' => [self::delegation(['iss' => 'another-issuer'])],
             'wrong audience' => [self::delegation(['aud' => 'another-service'])],
             'wrong action' => [self::delegation(['action' => 'another-action'])],
             'out of scope tenant' => [self::delegation(['tenant_id' => 'tenant-other'])],
             'out of scope project' => [self::delegation(['project_id' => 'project-other'])],
             'invalid jti' => [self::delegation(['jti' => 'contains space'])],
             'extra claim' => [self::delegation(['unexpected' => 'value'])],
+            'invalid signature' => [self::invalidSignature(self::delegation())],
         ];
     }
 
@@ -101,5 +103,11 @@ final class TracerScopedReadTest extends TestCase
     private static function base64Url(string $value): string
     {
         return rtrim(strtr(base64_encode($value), '+/', '-_'), '=');
+    }
+
+    private static function invalidSignature(string $delegation): string
+    {
+        [$payload, $signature] = explode('.', $delegation, 2);
+        return $payload.'.'.($signature[0] === 'A' ? 'B' : 'A').substr($signature, 1);
     }
 }

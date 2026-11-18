@@ -7,4 +7,5 @@ cleanup() {
 
 cleanup
 trap cleanup EXIT HUP INT TERM
+docker compose build
 docker compose run --rm tracer-verifier

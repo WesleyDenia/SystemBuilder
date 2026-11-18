@@ -39,9 +39,11 @@ final class InMemoryScopedReadInvocationEvidence implements ScopedReadInvocation
                 throw new \RuntimeException('Fixture invocation evidence is invalid');
             }
             $operation($counts);
+            $encoded = json_encode($counts, JSON_THROW_ON_ERROR);
             rewind($handle);
-            ftruncate($handle, 0);
-            fwrite($handle, json_encode($counts, JSON_THROW_ON_ERROR));
+            if (ftruncate($handle, 0) === false || fwrite($handle, $encoded) !== strlen($encoded)) {
+                throw new \RuntimeException('Fixture invocation evidence is unavailable');
+            }
         } finally {
             flock($handle, LOCK_UN);
             fclose($handle);

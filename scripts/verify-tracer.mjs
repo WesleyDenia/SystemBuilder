@@ -11,7 +11,10 @@ const bffCorrelation = requiredEnvironment('TRACER_VERIFIER_CORRELATION');
 
 try {
   runStructuralChecks();
-  const bff = await waitFor(`${bffUrl}/api/tracer`, (response) => response.status === 200);
+  // Readiness must not consume a fixture delegation or write invocation evidence.
+  await waitFor(bffUrl, (response) => response.status === 200);
+  const bff = await fetch(`${bffUrl}/api/tracer`);
+  assert(bff.status === 200, 'BFF did not return an authorized scoped fixture');
   assertSanitizedSuccess(await bff.text());
 
   const noisy = await fetch(`${bffUrl}/api/tracer?tenant_id=tenant-other&project_id=project-other&action=another-action`, {
@@ -35,12 +38,14 @@ try {
     ['malformed', 'not-a-delegation'],
     ['expired', delegation({ exp: Math.floor(Date.now() / 1000) - 1 })],
     ['too-long-lived', delegation({ exp: Math.floor(Date.now() / 1000) + 125 })],
+    ['wrong-issuer', delegation({ iss: 'another-issuer' })],
     ['wrong-audience', delegation({ aud: 'another-service' })],
     ['wrong-action', delegation({ action: 'another-action' })],
     ['out-of-scope-tenant', delegation({ tenant_id: 'tenant-other' })],
     ['out-of-scope-project', delegation({ project_id: 'project-other' })],
     ['invalid-jti', delegation({ jti: 'bad jti' })],
     ['extra-claim', delegation({ unexpected: 'value' })],
+    ['invalid-signature', invalidSignature(delegation())],
   ];
   for (const [name, value] of denied) {
     const correlation = `denied-${name}`;
@@ -81,6 +86,11 @@ function delegation(overrides = {}) {
   const json = JSON.stringify(claims);
   const payload = Buffer.from(json).toString('base64url');
   return `${payload}.${createHmac('sha256', delegationKey).update(json).digest('base64url')}`;
+}
+
+function invalidSignature(value) {
+  const [payload, signature] = value.split('.');
+  return `${payload}.${signature[0] === 'A' ? 'B' : 'A'}${signature.slice(1)}`;
 }
 
 async function waitFor(url, isReady) {

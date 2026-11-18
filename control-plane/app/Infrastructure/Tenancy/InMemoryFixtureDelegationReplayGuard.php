@@ -23,9 +23,9 @@ final class InMemoryFixtureDelegationReplayGuard implements FixtureDelegationRep
             $claimed = array_filter($claimed, static fn (mixed $expiry): bool => is_int($expiry) && $expiry > $now);
             if (isset($claimed[$jti])) return false;
             $claimed[$jti] = $expiresAt;
+            $encoded = json_encode($claimed, JSON_THROW_ON_ERROR);
             rewind($handle);
-            ftruncate($handle, 0);
-            fwrite($handle, json_encode($claimed, JSON_THROW_ON_ERROR));
+            if (ftruncate($handle, 0) === false || fwrite($handle, $encoded) !== strlen($encoded)) return false;
             return true;
         } catch (\JsonException) {
             return false;

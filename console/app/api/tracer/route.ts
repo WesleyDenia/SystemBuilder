@@ -9,7 +9,7 @@ export async function GET(request: Request) {
   }
 
   const contentLength = Number(request.headers.get('content-length') ?? '0');
-  if (!Number.isSafeInteger(contentLength) || contentLength < 0 || contentLength > 0) {
+  if (request.body !== null || !Number.isSafeInteger(contentLength) || contentLength < 0 || contentLength > 0) {
     return NextResponse.json({ error: 'tracer_request_rejected' }, { status: 400 });
   }
   if (request.url.length > 2048) {

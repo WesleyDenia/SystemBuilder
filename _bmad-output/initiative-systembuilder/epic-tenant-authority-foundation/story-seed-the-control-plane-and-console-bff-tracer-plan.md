@@ -6,9 +6,9 @@ created: '2026-10-29'
 status: 'built'
 route: 'full'
 route_source: 'auto'
-review: 'quick'
+review: 'thorough'
 review_source: 'pinned'
-lenses_ran: ['quick']
+lenses_ran: ['blind-hunter', 'edge-case-hunter', 'verification-gap', 'intent-alignment']
 review_loop_iteration: 0
 baseline_revision: 'c0c76591d0dff21497b1c413f6f5913fcee3bda3'
 context:
@@ -95,6 +95,21 @@ The approved fixture harness is implemented with application-owned membership au
 - SEC-07 and adversarial finding 3 — the BFF ignores browser scope selectors, rejects body/oversized requests, bounds upstream timeout, and verifier covers noisy query/header/cookie plus repeated calls.
 - SEC-08 and adversarial finding 11 — fixed error bodies plus verifier response/log/static-asset leak scans enforce response/output sanitization.
 - SEC-09 and adversarial findings 8–10 and 12–13 — runtime preflight, isolated lifecycle with cleanup, server-only per-run keys, loopback binding, and structural checks are implemented in `scripts/verify-tracer.mjs` and `scripts/check-tracer-structure.mjs`.
+- medium / patch — the BFF readiness probe performed an authorized read before the three asserted reads, producing a fourth evidence entry; it now probes the static Console root before making the three explicit BFF reads, verified by two clean Compose cycles.
+- low / patch — a chunked GET body could bypass the `Content-Length` check; the BFF now rejects any non-null request body before the server-side delegation is created.
+- low / rejected — Next.js's default unsupported-method 405 body is outside the tracer error schema, but callers receive the correct denial status and changing all method handlers adds unrelated surface.
+- false — runtime code already enforces the exact response shape and strict delegation claims; parsing the declarative JSON schemas would not prove an additional reachable behavior.
+- medium / patch — wrong issuer and modified HMAC signature were not represented among denial evidence; canonical and PHPUnit denial suites now assert zero reads for both.
+- low / defer — the disabled-harness BFF route lacks an isolated Console test, but the runtime gate is explicit and its test runner is outside this narrowly scoped integration correction.
+- false — `APP_ENV=production php artisan route:list --path=api/internal/tracer` returned no routes, proving the Laravel internal adapters remain harness-only at runtime.
+- low / defer — STRIDE's stated log scan is broader than the present verifier scan; this documentation/evidence alignment is not a cause of the invocation-count defect.
+- low / defer — the unrelated BMad review-skill workflow observations are outside the tracer correction intent.
+- false — the replay guard's local storage is an explicitly bounded single-container harness, not the production replay-store design excluded by the frozen intent.
+- low / defer — structural substring checks are limited but no concrete cross-boundary bypass was demonstrated by the reviewed change.
+- low / defer — an oversized successful Control Plane body and a malformed successful BFF upstream response lack fault injection; neither is involved in the reproduced tracer evidence defect.
+- medium / patch — replay and invocation stores did not check truncated/partial writes; both now fail closed, so evidence or replay state cannot silently report success after an incomplete persistence operation.
+- medium / patch — invocation-evidence authorization and validation errors had no HTTP coverage and could use Laravel's default response shape; the FormRequest now emits sanctioned sanitized errors and a feature test exercises the actual controller route for valid, absent, wrong-key, and invalid-correlation requests.
+- false — the direct fixture call used solely by the private verifier to test replay is not a browser-to-Control-Plane route; browser traffic still reaches Laravel only through the Console/BFF and cannot hold the delegation.
 
 ## Design Notes
 

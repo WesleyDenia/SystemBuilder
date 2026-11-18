@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
 final class TracerVerificationRequest extends FormRequest
 {
@@ -14,6 +16,16 @@ final class TracerVerificationRequest extends FormRequest
 
     public function rules(): array
     {
-        return ['correlation' => ['required', 'string', 'max:128', 'regex:/^[A-Za-z0-9-]+$/']];
+        return ['correlation' => ['bail', 'required', 'string', 'max:128', 'regex:/^[A-Za-z0-9-]+$/']];
+    }
+
+    protected function failedAuthorization(): void
+    {
+        throw new HttpResponseException(response()->json(['error' => 'tracer_access_denied'], 403));
+    }
+
+    protected function failedValidation(Validator $validator): void
+    {
+        throw new HttpResponseException(response()->json(['error' => 'tracer_request_rejected'], 422));
     }
 }
