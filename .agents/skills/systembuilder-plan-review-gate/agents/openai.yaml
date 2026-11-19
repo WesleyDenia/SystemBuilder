@@ -1,0 +1,3 @@
+interface:
+  display_name: "SystemBuilder Plan Review Gate"
+  short_description: "Gate story plans with adversarial and security review"

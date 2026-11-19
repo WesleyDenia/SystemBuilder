@@ -1,5 +1,5 @@
 <!-- bmad:context -->
-<!-- Verified 2026-10-22 against b672eb1. Managed by bmad-project-context; edits inside this block are replaced on refresh. Keep anything you want preserved outside the markers. -->
+<!-- Verified 2026-11-19 against b7b3a0c5f7a47ad23bcca049aaa3565df5b7d1a6. Managed by bmad-project-context; edits inside this block are replaced on refresh. Keep anything you want preserved outside the markers. -->
 
 ## SystemBuilder
 
@@ -19,6 +19,7 @@ SystemBuilder é um SaaS multi-tenant que governa workflows de desenvolvimento a
 - No perfil BMAD obrigatório, bloqueie Coding/Story até PRD, UX, Architecture e Project Context estarem presentes, validados e não stale.
 - Não implemente fallback implícito entre provider, modelo, executor ou adapter. Combinação não homologada ou capability ausente falha explicitamente.
 - Nunca persista ou apresente segredos em browser, prompts, stdout/stderr, logs, Ledger, Artifact ou Evidence. Runners recebem apenas credenciais temporárias e estritamente escopadas.
+- Após criar ou alterar materialmente o `*-plan.md` de uma story, execute `systembuilder-plan-review-gate` como próximo passo: a revisão adversarial precede obrigatoriamente a security review independente. Não apresente o plano para aprovação, nem o mova para `ready-for-dev` ou implementação, sem relatório da mesma revisão; Alto Risco aberto, STRIDE ausente ou revisão independente indisponível bloqueiam o avanço.
 
 ## Where things are
 
